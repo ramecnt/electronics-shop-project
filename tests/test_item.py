@@ -3,7 +3,6 @@
 import pytest
 from src.item import Item
 
-
 test_item = Item('Test', 12000, 5)
 test_item.pay_rate = 1.2
 
@@ -17,3 +16,15 @@ def test_apply_discount():
     test_item.apply_discount()
     price = test_item.price
     assert usuall_price == price
+
+
+def test_name():
+    test_item.name = "SuperTester"
+    assert test_item.name == "SuperTeste"
+
+
+def test_str_to_int():
+    assert Item.string_to_number('24.8') == 24
+    assert Item.string_to_number('3') == 3
+
+
