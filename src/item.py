@@ -16,12 +16,18 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
-        self.__name = name
+        self._name = name
         self.price = price
         self.quantity = quantity
         self._append()
 
-    def calculate_total_price(self) -> float:
+    def __repr__(self) -> str:
+        return f"Item('{self._name}', {self.price}, {self.quantity})"
+
+    def __str__(self) -> str:
+        return self._name
+
+    def calculate_total_price(self) -> float or int:
         """
         Рассчитывает общую стоимость конкретного товара в магазине.
 
@@ -33,7 +39,8 @@ class Item:
         """
         Применяет установленную скидку для конкретного товара.
         """
-        self.price *= self.pay_rate
+        k = self.price * self.pay_rate
+        self.price = int(k) if str(k)[-1] == "0" else k
 
     def _append(self) -> None:
         """
@@ -42,19 +49,19 @@ class Item:
         self.all.append(self)
 
     @property
-    def name(self):
-        return self.__name
+    def name(self) -> str:
+        return self._name
 
     @name.setter
-    def name(self, name):
+    def name(self, name) -> str or None:
         if len(name) > 10:
-            self.__name = name[:10]
+            self._name = name[:10]
             print("Длина наименования товара превышает 10 символов.")
         else:
-            self.__name = name
+            self._name = name
 
     @classmethod
-    def instantiate_from_csv(cls, file):
+    def instantiate_from_csv(cls, file) -> None:
         cls.all.clear()
         with open(file, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
@@ -62,5 +69,5 @@ class Item:
                 cls(row["name"], int(row["price"]), int(row["quantity"]))
 
     @staticmethod
-    def string_to_number(string):
+    def string_to_number(string) -> int:
         return int(float(string))

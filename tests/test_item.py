@@ -35,3 +35,8 @@ def test_instantiate_from_csv():
     item3 = Item.all[3]
     assert item3.price == 50
     assert item3.quantity == 5
+
+
+def test_repr_str():
+    assert repr(test_item) == "Item('SuperTeste', 14400, 5)"
+    assert str(test_item) == "SuperTeste"
