@@ -28,3 +28,10 @@ def test_str_to_int():
     assert Item.string_to_number('3') == 3
 
 
+def test_instantiate_from_csv():
+    Item.instantiate_from_csv('./src/items.csv')
+    assert len(Item.all) == 5
+
+    item3 = Item.all[3]
+    assert item3.price == 50
+    assert item3.quantity == 5

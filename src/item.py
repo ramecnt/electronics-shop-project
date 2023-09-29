@@ -49,15 +49,17 @@ class Item:
     def name(self, name):
         if len(name) > 10:
             self.__name = name[:10]
+            print("Длина наименования товара превышает 10 символов.")
         else:
             self.__name = name
 
     @classmethod
     def instantiate_from_csv(cls, file):
+        cls.all.clear()
         with open(file, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                cls(row["name"], row["price"], row["quantity"])
+                cls(row["name"], int(row["price"]), int(row["quantity"]))
 
     @staticmethod
     def string_to_number(string):
