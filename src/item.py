@@ -22,10 +22,14 @@ class Item:
         self._append()
 
     def __repr__(self) -> str:
-        return f"Item('{self._name}', {self.price}, {self.quantity})"
+        return f"{self.__class__.__name__}({str(list(self.__dict__.values()))[1:-1]})"
 
     def __str__(self) -> str:
         return self._name
+
+    def __add__(self, other):
+        if issubclass(other.__class__, self.__class__):
+            return other.quantity + self.quantity
 
     def calculate_total_price(self) -> float or int:
         """
