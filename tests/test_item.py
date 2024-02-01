@@ -1,7 +1,7 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 
 import pytest
-from src.item import Item
+from src.item import Item, InstantiateCSVError
 
 
 class TestItem:
@@ -26,13 +26,19 @@ class TestItem:
         assert Item.string_to_number('3') == 3
 
     def test_instantiate_from_csv(self):
-        Item.instantiate_from_csv('./src/items.csv')
+        Item.instantiate_from_csv('../src/items.csv')
         assert len(Item.all) == 5
 
         item3 = Item.all[3]
         assert item3.price == 50
         assert item3.quantity == 5
+        with pytest.raises(FileNotFoundError):
+            Item.instantiate_from_csv('../src/item.csv')
+        with pytest.raises(InstantiateCSVError):
+            Item.instantiate_from_csv('../src/wrong.csv')
+
 
     def test_repr_str(self):
-        assert repr(self.test_item) == "Item('SuperTeste', 14400, 5)"
+        assert repr(self.test_item) == "Item('SuperTeste', 14400, 5, 1.2)"
         assert str(self.test_item) == "SuperTeste"
+
